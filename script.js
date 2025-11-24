@@ -7,14 +7,14 @@ const projects = [
         description: "Led major feature development and architectural improvements for a top-ranked Islamic app with 20M+ downloads. Built the AI Islamic Chatbot, developed the complete Hajj Guide module, resolved long-standing architectural issues by migrating to a single-activity structure, and delivered multiple high-impact enhancements including Kalmas audio, Ayat audio, subscription redesign, and optimized Google Ads integration.",
         tech: ["Kotlin", "Clean Arch", "Room", "Google Play Billing", "Google Ads", "Mediation", "AI Bot"],
         stats: { main: "20M+", label: "Downloads" },
-        thumbImage: "images/hero_qibla.png",
+        thumbImage: "images/hero_qibla.webp",
         images: [
-            "images/hero_qibla.png",
-            "images/qibla_sc1.png",
-            "images/qibla_sc2.png",
-            "images/qibla_sc3.png",
-            "images/qibla_sc4.png",
-            "images/qibla_sc5.png"
+            "images/hero_qibla.webp",
+            "images/qibla_sc1.webp",
+            "images/qibla_sc2.webp",
+            "images/qibla_sc3.webp",
+            "images/qibla_sc4.webp",
+            "images/qibla_sc5.webp"
         ],
         links: { play: "https://play.google.com/store/apps/details?id=prayertime.compassdirection.qiblafinder.hijricalender&hl=en" },
         features: [
@@ -34,13 +34,13 @@ const projects = [
         description: "Led the modernization of a multilingual translator app with 1M+ users. Redesigned the complete UI/UX, implemented Google Play Billing subscriptions, integrated Google AdMob with full mediation, added an AI-powered chatbot, and built a document translation system supporting images, text, and screenshots.",
         tech: ["Kotlin", "Clean Arch", "Google Play Billing", "Google Ads", "Mediation", "ML Kit", "AI Chatbot"],
         stats: { main: "1M+", label: "Downloads" },
-        thumbImage: "images/hero_lang.png",
+        thumbImage: "images/hero_lang.webp",
         images: [
-            "images/hero_lang.png",
-            "images/lang_sc1.png",
-            "images/lang_sc2.png",
-            "images/lang_sc3.png",
-            "images/lang_sc4.png"
+            "images/hero_lang.webp",
+            "images/lang_sc1.webp",
+            "images/lang_sc2.webp",
+            "images/lang_sc3.webp",
+            "images/lang_sc4.webp"
         ],
         links: { play: "https://play.google.com/store/apps/details?id=translate.all.language.translator.text.voice.translation&hl=en" },
         features: [
@@ -60,12 +60,12 @@ const projects = [
         description: "Led the development of a full-featured health monitoring app including heart rate, blood oxygen, blood pressure, and blood sugar tracking. Implemented a modular architecture using Koin for dependency injection, integrated Google Play Billing, and set up Google AdMob with full mediation. Mentored a junior developer throughout the project, ensuring rapid delivery within 15 days.",
         tech: ["Kotlin", "Modular Architecture", "Koin DI", "Google Play Billing", "Google Ads", "Mediation", "Camera Processing"],
         stats: { main: "—", label: "New Published" },
-        thumbImage: "images/hero_heart_rate.png",
+        thumbImage: "images/hero_heart_rate.webp",
         images: [
-            "images/hero_heart_rate.png",
-            "images/heart_rate1.png",
-            "images/heart_rate2.png",
-            "images/heart_rate3.png"
+            "images/hero_heart_rate.webp",
+            "images/heart_rate1.webp",
+            "images/heart_rate2.webp",
+            "images/heart_rate3.webp"
         ],
         links: { 
             play: "https://play.google.com/store/apps/details?id=com.heart.o.heart.rate.monitor.bp" 
@@ -88,13 +88,13 @@ const projects = [
         description: "Designed and developed a complete Tasbeeh & Azkar app from scratch. Built a customizable Tasbeeh counter with add, edit and delete options, added morning/evening Azkar, integrated a Qibla Compass with themes, implemented Tasbeeh themes, Google Play Billing subscriptions, and full Google AdMob integration.",
         tech: ["Kotlin", "Modular Architecture", "Koin DI", "Google Play Billing", "Google Ads", "Mediation"],
         stats: { main: "—", label: "New Published" },
-        thumbImage: "images/hero_tasbeeh.png",
+        thumbImage: "images/hero_tasbeeh.webp",
         images: [
-            "images/tasbeeh1.png",
-            "images/tasbeeh2.png",
-            "images/tasbeeh3.png",
-            "images/tasbeeh4.png",
-            "images/tasbeeh5.png"
+            "images/tasbeeh1.webp",
+            "images/tasbeeh2.webp",
+            "images/tasbeeh3.webp",
+            "images/tasbeeh4.webp",
+            "images/tasbeeh5.webp"
         ],
         links: { 
             play: "https://play.google.com/store/apps/details?id=com.orbixapps.tasbeeh"
@@ -134,7 +134,7 @@ function renderProjectGrid() {
     projectsGrid.innerHTML = projects.map((p, i) => `
         <div onclick="openModal(${i})" class="group cursor-pointer relative rounded-xl bg-white p-1 shadow-sm hover:shadow-xl transition-all duration-500 ring-1 ring-slate-200 hover:ring-slate-300 hover:-translate-y-1">
             <div class="relative h-64 overflow-hidden rounded-lg bg-slate-100">
-                <img src="${p.thumbImage}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+                <img loading="lazy" src="${p.thumbImage}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
                 
                 <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
                     <div class="flex items-center gap-2">
@@ -218,7 +218,7 @@ function closeModal() {
 
 function renderCarousel() {
     const track = document.getElementById('carouselTrack');
-    track.innerHTML = currentProject.images.map((imagePath, i) => `<div class="min-w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 relative"><img src="${imagePath}" alt="${currentProject.title} screenshot ${i + 1}" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'flex flex-col items-center gap-4\\'><div class=\\'h-24 w-24 rounded-2xl bg-white shadow-xl ring-1 ring-slate-900/5 flex items-center justify-center\\'><i data-lucide=\\'image\\' class=\\'h-8 w-8 text-slate-300\\'></i></div><span class=\\'text-xs font-medium uppercase tracking-widest text-slate-400\\'>Image not found</span></div>'; lucide.createIcons();"></div>`).join('');
+    track.innerHTML = currentProject.images.map((imagePath, i) => `<div class="min-w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 relative"><img loading="lazy" src="${imagePath}" alt="${currentProject.title} screenshot ${i + 1}" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'flex flex-col items-center gap-4\\'><div class=\\'h-24 w-24 rounded-2xl bg-white shadow-xl ring-1 ring-slate-900/5 flex items-center justify-center\\'><i data-lucide=\\'image\\' class=\\'h-8 w-8 text-slate-300\\'></i></div><span class=\\'text-xs font-medium uppercase tracking-widest text-slate-400\\'>Image not found</span></div>'; lucide.createIcons();"></div>`).join('');
     updateCarousel();
     lucide.createIcons();
 }

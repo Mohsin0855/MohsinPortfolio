@@ -1,122 +1,9 @@
-// Projects Data
-const projects = [
-    {
-        id: "qibla",
-        title: "Muslim Prayer Qibla Compass",
-        role: "Lead Engineer",
-        description: "Led major feature development and architectural improvements for a top-ranked Islamic app with 20M+ downloads. Built the AI Islamic Chatbot, developed the complete Hajj Guide module, resolved long-standing architectural issues by migrating to a single-activity structure, and delivered multiple high-impact enhancements including Kalmas audio, Ayat audio, subscription redesign, and optimized Google Ads integration.",
-        tech: ["Kotlin", "Clean Arch", "Room", "Google Play Billing", "Google Ads", "Mediation", "AI Bot"],
-        stats: { main: "20M+", label: "Downloads" },
-        thumbImage: "images/hero_qibla.webp",
-        images: [
-            "images/hero_qibla.webp",
-            "images/qibla_sc1.webp",
-            "images/qibla_sc2.webp",
-            "images/qibla_sc3.webp",
-            "images/qibla_sc4.webp",
-            "images/qibla_sc5.webp"
-        ],
-        links: { play: "https://play.google.com/store/apps/details?id=prayertime.compassdirection.qiblafinder.hijricalender&hl=en" },
-        features: [
-            "AI-powered Islamic chatbot",
-            "Complete Hajj & Umrah feature",
-            "Single-activity architecture migration",
-            "Kalmas & Ayat audio system",
-            "Subscription redesign & upgrade",
-            "Optimized Google Ads & mediation setup",
-            "Major bug fixes & performance improvements"
-        ]
-    },
-    {
-        id: "translator",
-        title: "Language Translator",
-        role: "Lead Engineer",
-        description: "Led the modernization of a multilingual translator app with 1M+ users. Redesigned the complete UI/UX, implemented Google Play Billing subscriptions, integrated Google AdMob with full mediation, added an AI-powered chatbot, and built a document translation system supporting images, text, and screenshots.",
-        tech: ["Kotlin", "Clean Arch", "Google Play Billing", "Google Ads", "Mediation", "ML Kit", "AI Chatbot"],
-        stats: { main: "1M+", label: "Downloads" },
-        thumbImage: "images/hero_lang.webp",
-        images: [
-            "images/hero_lang.webp",
-            "images/lang_sc1.webp",
-            "images/lang_sc2.webp",
-            "images/lang_sc3.webp",
-            "images/lang_sc4.webp"
-        ],
-        links: { play: "https://play.google.com/store/apps/details?id=translate.all.language.translator.text.voice.translation&hl=en" },
-        features: [
-            "Complete UI/UX redesign",
-            "Subscription system with Google Play Billing",
-            "Full Google AdMob & mediation integration",
-            "AI-powered language chatbot",
-            "Document & photo translation",
-            "Voice, text & camera translation enhancements",
-            "Improved performance & architecture cleanup"
-        ]
-    },
-    {
-        id: "heartRate",
-        title: "Hearto: Heart Rate Monitor",
-        role: "Lead Engineer",
-        description: "Led the development of a full-featured health monitoring app including heart rate, blood oxygen, blood pressure, and blood sugar tracking. Implemented a modular architecture using Koin for dependency injection, integrated Google Play Billing, and set up Google AdMob with full mediation. Mentored a junior developer throughout the project, ensuring rapid delivery within 15 days.",
-        tech: ["Kotlin", "Modular Architecture", "Koin DI", "Google Play Billing", "Google Ads", "Mediation", "Camera Processing"],
-        stats: { main: "—", label: "New Published" },
-        thumbImage: "images/hero_heart_rate.webp",
-        images: [
-            "images/hero_heart_rate.webp",
-            "images/heart_rate1.webp",
-            "images/heart_rate2.webp",
-            "images/heart_rate3.webp"
-        ],
-        links: { 
-            play: "https://play.google.com/store/apps/details?id=com.heart.o.heart.rate.monitor.bp" 
-        },
-        features: [
-            "Heart rate detection using camera & flash",
-            "Blood oxygen, blood pressure & blood sugar modules",
-            "Modular multi-feature architecture",
-            "Koin-based dependency injection setup",
-            "Subscription system with Google Play Billing",
-            "Google AdMob integration with full mediation setup",
-            "Complete health dashboard & analytics",
-            "Mentored a junior developer during the project"
-        ]
-    },
-    {
-        id: "tasbeeh",
-        title: "Tasbih Counter – Zikr & Azkar",
-        role: "Lead Engineer",
-        description: "Designed and developed a complete Tasbeeh & Azkar app from scratch. Built a customizable Tasbeeh counter with add, edit and delete options, added morning/evening Azkar, integrated a Qibla Compass with themes, implemented Tasbeeh themes, Google Play Billing subscriptions, and full Google AdMob integration.",
-        tech: ["Kotlin", "Modular Architecture", "Koin DI", "Google Play Billing", "Google Ads", "Mediation"],
-        stats: { main: "—", label: "New Published" },
-        thumbImage: "images/hero_tasbeeh.webp",
-        images: [
-            "images/tasbeeh1.webp",
-            "images/tasbeeh2.webp",
-            "images/tasbeeh3.webp",
-            "images/tasbeeh4.webp",
-            "images/tasbeeh5.webp"
-        ],
-        links: { 
-            play: "https://play.google.com/store/apps/details?id=com.orbixapps.tasbeeh"
-        },
-        features: [
-            "Tasbeeh counter with add, edit & delete features",
-            "Custom Tasbeeh themes",
-            "Morning & evening Azkar",
-            "Qibla Compass with multiple themes",
-            "Subscription system with Google Play Billing",
-            "Google AdMob integration with full mediation",
-            "Clean modular code with Koin-based DI",
-            "Optimized performance & smooth UI animations"
-        ]
-    }
-
-
-];
-
 // DOM Elements
+const homeGrid = document.getElementById('homeProjects');
 const projectsGrid = document.getElementById('projectsGrid');
 const modal = document.getElementById('projectModal');
+
+// Modal Elements
 const backdrop = document.getElementById('modalBackdrop');
 const panel = document.getElementById('modalPanel');
 
@@ -124,123 +11,223 @@ const panel = document.getElementById('modalPanel');
 let currentSlide = 0;
 let currentProject = null;
 
-// Initialize on DOM Load
+// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    renderProjectGrid();
+    // Check which page we are on
+    if (homeGrid && typeof projects !== 'undefined') {
+        renderHomeProjects();
+    }
+
+    if (projectsGrid && typeof projects !== 'undefined') {
+        renderAllProjects();
+    }
+
+    lucide.createIcons();
+    initSpotlightEffect();
 });
 
-// Render Projects Grid
-function renderProjectGrid() {
-    projectsGrid.innerHTML = projects.map((p, i) => `
-        <div onclick="openModal(${i})" class="group cursor-pointer relative rounded-xl bg-white p-1 shadow-sm hover:shadow-xl transition-all duration-500 ring-1 ring-slate-200 hover:ring-slate-300 hover:-translate-y-1">
-            <div class="relative h-64 overflow-hidden rounded-lg bg-slate-100">
-                <img loading="lazy" src="${p.thumbImage}" alt="${p.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+// --- RENDER FUNCTIONS (V2 With Spotlight) ---
+
+// Render Top 3 Projects for Home
+function renderHomeProjects() {
+    const featured = projects.slice(0, 3);
+
+    homeGrid.innerHTML = featured.map((p, i) => `
+        <div onclick="openModal(${i})" class="spotlight-card group cursor-pointer rounded-2xl border border-white/5 transition-transform duration-500 hover:-translate-y-1">
+            <!-- Spotlight Inner (z-index 2) -->
+            <div class="spotlight-inner p-4 h-full flex flex-col">
                 
-                <div class="absolute bottom-4 left-4 right-4 flex items-end justify-between">
-                    <div class="flex items-center gap-2">
-                        <div class="rounded-md bg-white/90 backdrop-blur px-2.5 py-1 text-[10px] font-semibold text-slate-700 shadow-sm ring-1 ring-slate-900/5">
+                <div class="tilt-wrapper relative h-48 overflow-hidden rounded-xl bg-black/50 mb-4">
+                    <img loading="lazy" src="${p.thumbImage}" alt="${p.title}" 
+                        class="tilt-image w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105"
+                        onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] to-transparent opacity-60 pointer-events-none"></div>
+                    
+                    <div class="absolute bottom-3 left-3 pointer-events-none">
+                        <span class="inline-flex items-center rounded-md bg-indigo-500/20 px-2 py-1 text-[10px] font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/30 backdrop-blur-md">
                             ${p.tech[0]}
-                        </div>
+                        </span>
                     </div>
                 </div>
-            </div>
-            <div class="p-5">
-                <div class="flex items-start justify-between mb-2">
-                    <h3 class="font-semibold text-slate-900 tracking-tight group-hover:text-indigo-600 transition-colors">${p.title}</h3>
-                    <span class="text-xs font-medium text-slate-400 flex items-center gap-1">
-                        ${p.stats.main} <span class="hidden sm:inline">${p.stats.label}</span>
-                    </span>
+
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">${p.title}</h3>
+                    <p class="text-sm text-slate-400 line-clamp-2 leading-relaxed mb-4">${p.description}</p>
+                    <div class="mt-auto flex items-center text-xs font-medium text-slate-500 group-hover:text-slate-300 transition-colors">
+                        View Details <i data-lucide="arrow-right" class="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1"></i>
+                    </div>
                 </div>
-                <p class="text-sm text-slate-500 line-clamp-2 leading-relaxed">${p.description}</p>
+
             </div>
         </div>
     `).join('');
-    lucide.createIcons();
 }
 
-// Open Modal
+// Render All Projects for Projects Page
+function renderAllProjects() {
+    projectsGrid.innerHTML = projects.map((p, i) => `
+        <div onclick="openModal(${i})" class="spotlight-card group cursor-pointer rounded-2xl border border-white/5 transition-transform duration-500 hover:-translate-y-1">
+             <div class="spotlight-inner p-0 overflow-hidden flex flex-col h-full rounded-2xl">
+                
+                <div class="tilt-wrapper relative h-56 overflow-hidden bg-black/50">
+                    <img loading="lazy" src="${p.thumbImage}" alt="${p.title}" 
+                        class="tilt-image w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105"
+                        onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent opacity-80 pointer-events-none"></div>
+                    
+                    <div class="absolute bottom-4 left-4 right-4 flex justify-between items-end pointer-events-none">
+                         <span class="inline-flex items-center rounded-md bg-white/10 px-2.5 py-1 text-xs font-medium text-white ring-1 ring-inset ring-white/10 backdrop-blur-md">
+                            ${p.tech[0]}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">${p.title}</h3>
+                    </div>
+                    <p class="text-sm text-slate-400 line-clamp-3 leading-relaxed mb-6 flex-grow">${p.description}</p>
+                    
+                    <div class="border-t border-white/5 pt-4 flex items-center justify-between mt-auto">
+                        <span class="text-xs text-slate-500 uppercase tracking-wider font-semibold">${p.role}</span>
+                        <span class="text-indigo-400 text-xs font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                            Explore <i data-lucide="arrow-right" class="h-3 w-3"></i>
+                        </span>
+                    </div>
+                </div>
+             </div>
+        </div>
+    `).join('');
+}
+
+// --- EFFECTS LOGIC ---
+
+// Spotlight: Tracks mouse over cards to move the radial gradient
+function initSpotlightEffect() {
+    const cards = document.querySelectorAll('.spotlight-card');
+
+    document.addEventListener('mousemove', (e) => {
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+}
+
+// Tilt: 3D parallax effect for images
+function handleTilt(e, img) {
+    const rect = img.parentElement.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    // Calculate rotation (max 10 degrees)
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+
+    img.style.transform = `scale(1.1) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+}
+
+function resetTilt(img) {
+    img.style.transform = 'scale(1) perspective(1000px) rotateX(0) rotateY(0)';
+}
+
+
+// --- MODAL LOGIC (Standard) ---
+
 function openModal(index) {
     currentProject = projects[index];
     currentSlide = 0;
-    
-    // Fill Modal Content
+
+    // Fill Content
     document.getElementById('mTitle').innerText = currentProject.title;
     document.getElementById('mRole').innerText = currentProject.role;
     document.getElementById('mDesc').innerText = currentProject.description;
-    
-    // Populate Features
-    document.getElementById('mFeatures').innerHTML = currentProject.features.map(f => 
-        `<li class="flex items-start gap-2.5 text-sm text-slate-600">
-            <div class="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-500 shrink-0"></div>
+
+    // Features
+    document.getElementById('mFeatures').innerHTML = currentProject.features.map(f =>
+        `<li class="flex items-start gap-3 text-sm text-slate-300">
+            <div class="mt-1.5 h-1.5 w-1.5 rounded-full bg-indigo-500 shrink-0 shadow-[0_0_8px_rgba(99,102,241,0.6)]"></div>
             <span>${f}</span>
         </li>`
     ).join('');
-    
-    // Populate Technologies
-    document.getElementById('mTech').innerHTML = currentProject.tech.map(t => 
-        `<span class="inline-flex items-center rounded-md bg-slate-100 px-2 py-1 text-xs font-medium text-slate-600">${t}</span>`
+
+    // Tech
+    document.getElementById('mTech').innerHTML = currentProject.tech.map(t =>
+        `<span class="inline-flex items-center rounded-md bg-white/5 px-2.5 py-1 text-xs font-medium text-indigo-300 ring-1 ring-inset ring-white/10">${t}</span>`
     ).join('');
 
-    // Set Play Store Link
-    const playButton = document.getElementById('mPlay');
-    playButton.href = currentProject.links.play;
+    // Link
+    const playBtn = document.getElementById('mPlay');
+    playBtn.href = currentProject.links.play || "#";
+    // Add shine effect class to modal button too
+    playBtn.classList.add('btn-shine');
 
-    // Render Carousel
     renderCarousel();
 
-    // Show Modal
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
-    
-    // Animate In
-    requestAnimationFrame(() => {
-        backdrop.classList.remove('opacity-0');
-        panel.classList.remove('scale-95', 'opacity-0', 'translate-y-4');
-        panel.classList.add('scale-100', 'opacity-100', 'translate-y-0');
-    });
-    
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => {
+            backdrop.classList.remove('opacity-0');
+            panel.classList.remove('scale-95', 'opacity-0', 'translate-y-4');
+            panel.classList.add('scale-100', 'opacity-100', 'translate-y-0');
+        });
+    }
     lucide.createIcons();
 }
 
-// Close Modal
 function closeModal() {
-    backdrop.classList.add('opacity-0');
-    panel.classList.remove('scale-100', 'opacity-100', 'translate-y-0');
-    panel.classList.add('scale-95', 'opacity-0', 'translate-y-4');
-    
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        document.body.style.overflow = '';
-    }, 300);
-}
+    if (backdrop && panel) {
+        backdrop.classList.add('opacity-0');
+        panel.classList.remove('scale-100', 'opacity-100', 'translate-y-0');
+        panel.classList.add('scale-95', 'opacity-0', 'translate-y-4');
 
-// Render Carousel
+        setTimeout(() => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }, 500);
+    }
+}
 
 function renderCarousel() {
     const track = document.getElementById('carouselTrack');
-    track.innerHTML = currentProject.images.map((imagePath, i) => `<div class="min-w-full h-full flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 relative"><img loading="lazy" src="${imagePath}" alt="${currentProject.title} screenshot ${i + 1}" class="w-full h-full object-contain" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'flex flex-col items-center gap-4\\'><div class=\\'h-24 w-24 rounded-2xl bg-white shadow-xl ring-1 ring-slate-900/5 flex items-center justify-center\\'><i data-lucide=\\'image\\' class=\\'h-8 w-8 text-slate-300\\'></i></div><span class=\\'text-xs font-medium uppercase tracking-widest text-slate-400\\'>Image not found</span></div>'; lucide.createIcons();"></div>`).join('');
+    if (!track) return;
+    track.innerHTML = currentProject.images.map((imagePath, i) => `
+        <div class="min-w-full h-full flex items-center justify-center relative">
+            <img loading="lazy" src="${imagePath}" class="max-w-full max-h-full object-contain" onerror="this.style.display='none'">
+        </div>
+    `).join('');
     updateCarousel();
-    lucide.createIcons();
 }
 
-// Update Carousel Position
 function updateCarousel() {
-    document.getElementById('carouselTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
+    const track = document.getElementById('carouselTrack');
+    if (track) track.style.transform = `translateX(-${currentSlide * 100}%)`;
 }
 
-// Next Slide
 function nextSlide() {
-    currentSlide = (currentSlide + 1) % currentProject.images.length;
-    updateCarousel();
+    if (currentProject && currentProject.images.length > 0) {
+        currentSlide = (currentSlide + 1) % currentProject.images.length;
+        updateCarousel();
+    }
 }
 
-// Previous Slide
 function prevSlide() {
-    currentSlide = (currentSlide - 1 + currentProject.images.length) % currentProject.images.length;
-    updateCarousel();
+    if (currentProject && currentProject.images.length > 0) {
+        currentSlide = (currentSlide - 1 + currentProject.images.length) % currentProject.images.length;
+        updateCarousel();
+    }
 }
 
-// Keyboard Navigation
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal();
 });

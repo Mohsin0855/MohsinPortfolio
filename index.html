@@ -1,314 +1,290 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth selection:bg-indigo-500/20 selection:text-indigo-700">
+<html lang="en" class="scroll-smooth">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohsin Naseer — Mobile Engineer</title>
+    <title>Mohsin Naseer — Senior Mobile Engineer</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#030712',
+                            card: '#0f172a',
+                            accent: '#6366f1',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Three.js (Must be before bg-3d.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-[#FAFAFA] text-slate-600 relative">
 
-<!-- Background Layers -->
-<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-    <div class="absolute inset-0 bg-gradient-to-br from-blue-100 via-cyan-100 to-teal-100 opacity-60 blur-3xl"></div>
-    <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 h-[800px] w-[800px] rounded-full bg-gradient-to-b from-blue-50/80 to-white blur-3xl opacity-60"></div>
-    <div class="absolute top-[40%] -right-[20%] h-[600px] w-[600px] rounded-full bg-gradient-to-b from-teal-50/50 to-white blur-3xl opacity-50"></div>
-    <div class="absolute inset-0 bg-premium-grid"></div>
-    <div class="absolute inset-0 opacity-[0.015]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
-</div>
+<body class="bg-brand-dark text-slate-200 selection:bg-brand-accent/30 selection:text-white relative">
 
-<!-- Background Aesthetics -->
-<div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-    <div class="absolute -top-[20%] left-1/2 -translate-x-1/2 h-[800px] w-[800px] rounded-full bg-gradient-to-b from-indigo-50/80 to-white blur-3xl opacity-60"></div>
-    <div class="absolute top-[40%] -right-[20%] h-[600px] w-[600px] rounded-full bg-gradient-to-b from-purple-50/50 to-white blur-3xl opacity-50"></div>
-    <div class="absolute inset-0 bg-premium-grid"></div>
-    <div class="absolute inset-0 opacity-[0.015]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
-</div>
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
 
-<!-- Navigation -->
-<header class="fixed inset-x-0 top-0 z-50">
-    <div class="absolute inset-0 bg-white/60 backdrop-blur-xl border-b border-slate-200/50"></div>
-    <div class="relative mx-auto flex max-w-6xl items-center justify-between px-6 h-16">
-        <a href="#" class="flex items-center gap-3 group">
-            <div class="h-8 w-8 rounded-lg bg-slate-900 flex items-center justify-center text-white shadow-lg shadow-slate-500/20 transition-transform group-hover:scale-105">
-                <span class="text-[10px] font-bold tracking-tighter">MN</span>
-            </div>
-            <span class="text-sm font-medium tracking-tight text-slate-900 group-hover:text-slate-600 transition-colors">Mohsin Naseer</span>
-        </a>
-        
-        <nav class="hidden md:flex items-center gap-8">
-            <a href="#work" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">Projects</a>
-            <a href="#stats" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">Impact</a>
-            <a href="#contact" class="text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">Contact</a>
-        </nav>
-
-        <div class="flex items-center gap-4">
-            <a href="images/Mohsin Naseer Resume.pdf" class="hidden md:flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors">
-                <span>Resume</span>
-                <i data-lucide="arrow-up-right" class="h-3 w-3 opacity-50"></i>
-            </a>
-            <button class="md:hidden p-2 text-slate-600"><i data-lucide="menu" class="h-5 w-5"></i></button>
+    <!-- Decorative Glows -->
+    <div class="fixed top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+        <div class="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/20 rounded-full blur-[120px]">
         </div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px]">
+        </div>
+        <div class="absolute inset-0 bg-grid-white opacity-20"></div>
     </div>
-</header>
 
-<main class="pt-32 pb-24 relative">
-    
-    <!-- Hero Section -->
-    <section class="mx-auto max-w-6xl px-6 mb-32">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-            
-            <!-- Left Content -->
-            <div class="lg:col-span-7 animate-fade-up">
-                <div class="inline-flex items-center gap-2 rounded-full bg-indigo-50/50 border border-indigo-100/50 px-4 py-1.5 text-sm font-medium text-indigo-600 mb-8 backdrop-blur-sm ring-1 ring-indigo-500/10">
-                    <span class="relative flex h-2 w-2">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
-                    </span>
-                    Available for new projects
+    <!-- Navigation -->
+    <header class="fixed inset-x-0 top-0 z-50 glass-nav transition-all duration-300">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 h-20">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div
+                    class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 transition-transform group-hover:scale-105">
+                    <span class="text-xs font-bold tracking-tighter">MN</span>
+                </div>
+                <div>
+                    <span class="block text-sm font-bold tracking-tight text-white">Mohsin Naseer</span>
+                    <span class="block text-[10px] text-slate-400 uppercase tracking-widest">Mobile Engineer</span>
+                </div>
+            </a>
+
+            <nav
+                class="hidden md:flex items-center gap-8 bg-white/5 px-6 py-2 rounded-full border border-white/5 backdrop-blur-md">
+                <a href="index.html"
+                    class="text-sm font-medium text-white hover:text-indigo-400 transition-colors">Home</a>
+                <a href="projects.html"
+                    class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Work</a>
+                <a href="contact.html"
+                    class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="images/Mohsin Naseer Resume.pdf" target="_blank"
+                    class="hidden md:flex items-center gap-2 text-xs font-medium text-slate-400 hover:text-white transition-colors border border-white/10 px-4 py-2 rounded-lg hover:bg-white/5">
+                    <span>Resume</span>
+                    <i data-lucide="arrow-up-right" class="h-3 w-3"></i>
+                </a>
+                <button class="md:hidden p-2 text-slate-400 hover:text-white"><i data-lucide="menu"
+                        class="h-6 w-6"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-24 relative z-10">
+
+        <!-- Hero Section -->
+        <section class="mx-auto max-w-7xl px-6 mb-32 min-h-[80vh] flex flex-col justify-center">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+                <div class="lg:col-span-7 animate-fade-up">
+                    <div
+                        class="inline-flex items-center gap-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-4 py-1.5 text-sm font-medium text-indigo-400 mb-8 backdrop-blur-sm">
+                        <span class="relative flex h-2 w-2">
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                        </span>
+                        Available for new projects
+                    </div>
+
+                    <h1
+                        class="text-6xl sm:text-7xl lg:text-8xl font-bold tracking-tight leading-none text-white mb-8 reveal-text">
+                        <span>Crafting</span> <br>
+                        <span class="text-shimmer">Digital Reality.</span>
+                    </h1>
+
+                    <p class="text-xl text-slate-400 leading-relaxed tracking-tight max-w-xl mb-12 font-light">
+                        Senior Android Engineer specializing in high-performance, scalable applications. I turn complex
+                        problems into elegant, monetizable mobile experiences suitable for millions.
+                    </p>
+
+                    <div class="flex flex-wrap items-center gap-5">
+                        <a href="projects.html"
+                            class="btn-shine group inline-flex h-12 items-center gap-2 rounded-full bg-white text-slate-900 px-8 text-sm font-semibold shadow-xl shadow-indigo-500/10 transition-all hover:bg-slate-200 hover:scale-105">
+                            View Work
+                            <i data-lucide="arrow-right"
+                                class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+                        </a>
+
+                        <a href="contact.html"
+                            class="group inline-flex h-12 items-center gap-2 rounded-full bg-white/5 border border-white/10 px-8 text-sm font-semibold text-white transition-all hover:bg-white/10 hover:border-white/20">
+                            Let's Talk
+                        </a>
+                    </div>
                 </div>
 
-                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-medium tracking-[-0.04em] leading-[0.95] text-slate-900 mb-8">
-                    Building scalable <br>
-                    <span class="text-slate-400">mobile solutions.</span>
-                </h1>
+                <!-- Stats / Bento Grid Abstract -->
+                <div class="lg:col-span-5 animate-fade-up delay-200 relative lg:h-[600px] hidden lg:block">
+                    <!-- Floating Cards Effect using CSS Animation -->
+                    <div class="absolute top-[10%] right-[10%] w-64 p-5 glass-card rounded-2xl animate-float hover-glow transition-all"
+                        style="animation-delay: 0s;">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="p-2 bg-indigo-500/20 rounded-lg text-indigo-400"><i data-lucide="smartphone"
+                                    class="h-6 w-6"></i></div>
+                            <div>
+                                <div class="text-2xl font-bold text-white">25M+</div>
+                                <div class="text-xs text-slate-400 uppercase tracking-widest">Installs</div>
+                            </div>
+                        </div>
+                    </div>
 
-                <p class="text-lg text-slate-500 leading-relaxed tracking-tight max-w-lg mb-10 font-light">
-                    Android Engineer specializing in high-performance Kotlin applications. I build systems that monetize effectively and scale to millions of daily users.
-                </p>
+                    <div class="absolute top-[35%] left-[5%] w-64 p-5 glass-card rounded-2xl animate-float hover-glow transition-all"
+                        style="animation-delay: 1.5s;">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="p-2 bg-emerald-500/20 rounded-lg text-emerald-400"><i data-lucide="star"
+                                    class="h-6 w-6"></i></div>
+                            <div>
+                                <div class="text-2xl font-bold text-white">4.7</div>
+                                <div class="text-xs text-slate-400 uppercase tracking-widest">Avg Rating</div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="flex flex-wrap items-center gap-4">
-                    <a href="#work" class="group inline-flex h-10 items-center gap-2 rounded-full bg-slate-900 px-6 text-sm font-medium text-white shadow-xl shadow-slate-900/10 transition-all hover:bg-slate-800 hover:shadow-slate-900/20 active:scale-95">
-                        View Work
-                        <i data-lucide="arrow-down" class="h-4 w-4 transition-transform group-hover:translate-y-0.5"></i>
-                    </a>
-
-                    <a href="mailto:chmohsin.official@gmail.com" class="group inline-flex h-10 items-center gap-2 rounded-full bg-white px-6 text-sm font-medium text-slate-600 shadow-sm ring-1 ring-slate-200 transition-all hover:ring-slate-300 hover:text-slate-900 active:scale-95">
-                        Contact
-                    </a>
+                    <div class="absolute bottom-[20%] right-[15%] w-64 p-5 glass-card rounded-2xl animate-float hover-glow transition-all"
+                        style="animation-delay: 2.5s;">
+                        <div class="flex items-center gap-4 mb-3">
+                            <div class="p-2 bg-purple-500/20 rounded-lg text-purple-400"><i data-lucide="code-2"
+                                    class="h-6 w-6"></i></div>
+                            <div>
+                                <div class="text-sm font-bold text-white">Clean Architecture</div>
+                                <div class="text-xs text-slate-400 uppercase tracking-widest">Standard</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Right "Bento" Card -->
-            <div class="lg:col-span-5 animate-fade-up delay-200">
-                <div class="relative rounded-2xl bg-white/40 p-1.5 ring-1 ring-white/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] backdrop-blur-sm">
-                    <div class="rounded-xl bg-gradient-to-b from-white to-slate-50/50 p-6 ring-1 ring-slate-900/5">
+        <!-- Selected Work Preview -->
+        <section class="mx-auto max-w-7xl px-6 mb-32">
+            <div class="flex items-end justify-between mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-2">Selected Work</h2>
+                    <p class="text-slate-400">A glimpse into my recent engineering achievements.</p>
+                </div>
+                <a href="projects.html"
+                    class="hidden md:flex items-center gap-2 text-sm text-indigo-400 hover:text-indigo-300 font-medium group">
+                    View All Projects <i data-lucide="arrow-right"
+                        class="h-4 w-4 transition-transform group-hover:translate-x-1"></i>
+                </a>
+            </div>
 
-                        <div class="flex items-center justify-between mb-8">
-                            <div class="flex items-center gap-3">
-                                <div class="h-12 w-12 rounded-lg bg-slate-900 text-white flex items-center justify-center">
-                                    <i data-lucide="code-2" class="h-6 w-6"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="homeProjects">
+                <!-- Data Injected Here -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/5 bg-black/20 backdrop-blur-xl">
+        <div class="mx-auto max-w-7xl px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-sm text-slate-500">
+                &copy; 2025 Mohsin Naseer. Crafted with precision.
+            </div>
+            <div class="flex gap-6">
+                <a href="https://www.linkedin.com/in/mohsinnaseerappdeveloper/"
+                    class="text-slate-500 hover:text-white transition-colors"><i data-lucide="linkedin"
+                        class="h-5 w-5"></i></a>
+                <a href="https://github.com/Mohsin0855" class="text-slate-500 hover:text-white transition-colors"><i
+                        data-lucide="github" class="h-5 w-5"></i></a>
+                <a href="mailto:chmohsin.official@gmail.com"
+                    class="text-slate-500 hover:text-white transition-colors"><i data-lucide="mail"
+                        class="h-5 w-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-500 opacity-0"
+            id="modalBackdrop" onclick="closeModal()"></div>
+        <div class="fixed inset-0 z-[101] overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 sm:p-6 text-center">
+                <div id="modalPanel"
+                    class="relative w-full max-w-5xl transform overflow-hidden rounded-2xl bg-[#0f172a] border border-white/10 text-left shadow-2xl transition-all duration-500 scale-95 opacity-0 translate-y-4">
+                    <div class="absolute right-4 top-4 z-10">
+                        <button onclick="closeModal()"
+                            class="rounded-full bg-black/50 backdrop-blur p-2 text-white hover:bg-white/20 transition-colors">
+                            <i data-lucide="x" class="h-5 w-5"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row h-[80vh] md:h-auto">
+                        <!-- Left: Image Slider -->
+                        <div
+                            class="w-full md:w-[60%] bg-black relative flex items-center justify-center overflow-hidden">
+                            <div class="relative w-full h-[300px] md:h-full md:min-h-[500px] bg-black/50">
+                                <div id="carouselTrack" class="flex transition-transform duration-500 h-full w-full">
+                                    <!-- Slides -->
+                                </div>
+                                <div
+                                    class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 bg-black/40 backdrop-blur-md p-1.5 rounded-full border border-white/10">
+                                    <button onclick="prevSlide()"
+                                        class="p-2 text-white hover:bg-white/10 rounded-full transition"><i
+                                            data-lucide="chevron-left" class="h-4 w-4"></i></button>
+                                    <button onclick="nextSlide()"
+                                        class="p-2 text-white hover:bg-white/10 rounded-full transition"><i
+                                            data-lucide="chevron-right" class="h-4 w-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Content -->
+                        <div class="w-full md:w-[40%] p-8 md:p-10 flex flex-col bg-[#0f172a] overflow-y-auto">
+                            <div class="mb-2">
+                                <span id="mRole"
+                                    class="text-xs font-bold uppercase tracking-widest text-indigo-400"></span>
+                            </div>
+                            <h3 id="mTitle" class="text-3xl font-bold tracking-tight text-white mb-4"></h3>
+
+                            <div class="prose prose-invert prose-sm mb-8 text-slate-400">
+                                <p id="mDesc" class="leading-relaxed"></p>
+                            </div>
+
+                            <div class="space-y-8 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Key
+                                        Features</h4>
+                                    <ul id="mFeatures" class="space-y-3"></ul>
                                 </div>
                                 <div>
-                                    <div class="text-base font-semibold text-slate-900">Tech Stack</div>
-                                    <div class="text-sm text-slate-500">Core Expertise</div>
+                                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Tech
+                                        Stack</h4>
+                                    <div id="mTech" class="flex flex-wrap gap-2"></div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="grid grid-cols-2 gap-3">
-                            <div class="col-span-2 p-4 rounded-lg bg-white border border-slate-100 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all group cursor-default">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm font-medium text-slate-400">Primary</span>
-                                    <i data-lucide="smartphone" class="h-4 w-4 text-slate-300 group-hover:text-indigo-500 transition-colors"></i>
-                                </div>
-                                <div class="text-lg font-semibold text-slate-900">Kotlin & Java (Native)</div>
+                            <div class="mt-auto pt-6 border-t border-white/5">
+                                <a id="mPlay" href="#" target="_blank"
+                                    class="w-full inline-flex justify-center items-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-500 hover:-translate-y-0.5 shadow-lg shadow-indigo-500/20">
+                                    Download on Play Store <i data-lucide="external-link" class="h-4 w-4"></i>
+                                </a>
                             </div>
-
-                            <div class="p-4 rounded-lg bg-white border border-slate-100 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all group cursor-default">
-                                <div class="text-sm font-medium text-slate-400 mb-1">UI Kit</div>
-                                <div class="text-lg font-semibold text-slate-900">XML, Compose</div>
-                            </div>
-
-                            <div class="p-4 rounded-lg bg-white border border-slate-100 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all group cursor-default">
-                                <div class="text-sm font-medium text-slate-400 mb-1">Architecture</div>
-                                <div class="text-lg font-semibold text-slate-900">Clean MVVM</div>
-                            </div>
-
-                            <div class="col-span-2 p-4 rounded-lg bg-white border border-slate-100 shadow-sm hover:border-indigo-200 hover:shadow-md transition-all group cursor-default">
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-sm font-medium text-slate-400">Monetization</span>
-                                    <i data-lucide="dollar-sign" class="h-4 w-4 text-slate-300 group-hover:text-emerald-500 transition-colors"></i>
-                                </div>
-                                <div class="text-lg font-semibold text-slate-900">AdMob, Google Billing, Mediation</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section id="stats" class="mx-auto max-w-6xl px-6 mb-32 animate-fade-up delay-300">
-        <div class="rounded-2xl bg-white p-1 shadow-[0_0_0_1px_rgba(0,0,0,0.03),0_2px_8px_rgba(0,0,0,0.04)]">
-            <div class="rounded-xl bg-slate-50/50 border border-slate-100/50 px-6 py-10 md:px-12">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-
-                    <!-- Total Installs -->
-                    <div class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M12 4.5v15m7.5-7.5h-15" />
-                        </svg>
-                        <div class="text-4xl font-medium tracking-tighter text-slate-900 mb-1">25M+</div>
-                        <div class="text-xs font-medium uppercase tracking-widest text-slate-500">Total Installs</div>
-                    </div>
-
-                    <!-- Daily Active Users -->
-                    <div class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M5.5 21a8.38 8.38 0 0113 0M12 11.5a4 4 0 100-8 4 4 0 000 8z" />
-                        </svg>
-                        <div class="text-4xl font-medium tracking-tighter text-slate-900 mb-1">600k</div>
-                        <div class="text-xs font-medium uppercase tracking-widest text-slate-500">Daily Active Users</div>
-                    </div>
-
-                    <!-- Average Rating -->
-                    <div class="text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mx-auto mb-3 text-yellow-500" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 .587l3.668 7.568L24 9.748l-6 5.85L19.335 24 12 19.897 4.665 24 6 15.598 0 9.748l8.332-1.593z"/>
-                        </svg>
-                        <div class="text-4xl font-medium tracking-tighter text-slate-900 mb-1">4.7</div>
-                        <div class="text-xs font-medium uppercase tracking-widest text-slate-500">Average Rating</div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Work Section -->
-    <section id="work" class="mx-auto max-w-6xl px-6 mb-32 animate-fade-up delay-500">
-        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-                <h2 class="text-3xl font-medium tracking-tight text-slate-900">Selected Projects</h2>
-                <p class="text-sm text-slate-500 mt-3 max-w-md leading-relaxed">
-                    A curated list of applications designed and developed for performance and growth.
-                </p>
-            </div>
-            <a href="#" class="hidden md:flex items-center gap-2 text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors group">
-                View GitHub <i data-lucide="arrow-right" class="h-3 w-3 transition-transform group-hover:translate-x-1"></i>
-            </a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="projectsGrid">
-            <!-- Injected by JS -->
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="mx-auto max-w-3xl px-6 mb-16 animate-fade-up delay-500">
-        <div class="relative overflow-hidden rounded-2xl bg-slate-900 text-white p-10 md:p-14 text-center shadow-2xl shadow-slate-900/20">
-            <!-- Decorative glow inside card -->
-            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-b from-indigo-500/20 to-transparent blur-3xl pointer-events-none"></div>
-            
-            <div class="relative z-10">
-                <h2 class="text-2xl md:text-3xl font-medium tracking-tight mb-3">Ready to build something great?</h2>
-                <p class="text-slate-400 text-sm md:text-base mb-8 max-w-lg mx-auto leading-relaxed">
-                    Currently open to discussing new opportunities, freelance projects, or engineering consultancy.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <a href="mailto:chmohsin.official@gmail.com" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-2.5 text-sm font-medium text-slate-900 transition-all hover:bg-indigo-50 hover:scale-[1.02]">
-                        <i data-lucide="mail" class="h-4 w-4"></i> Email Me
-                    </a>
-                    <a href="https://www.linkedin.com/in/mohsinnaseerappdeveloper/" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full border border-slate-700 bg-slate-800/50 px-6 py-2.5 text-sm font-medium text-slate-300 transition-all hover:bg-slate-800 hover:text-white hover:border-slate-600">
-                        <i data-lucide="linkedin" class="h-4 w-4"></i> LinkedIn
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</main>
-
-<!-- Footer -->
-<footer class="border-t border-slate-200/60 bg-white">
-    <div class="mx-auto max-w-6xl px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="text-xs text-slate-400">
-            &copy; 2025 Mohsin Naseer. All rights reserved.
-        </div>
-        <div class="flex gap-6">
-            <a href="https://x.com/MohsinN83936566" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">Twitter</a>
-            <a href="https://github.com/Mohsin0855" class="text-xs text-slate-400 hover:text-slate-900 transition-colors">GitHub</a>
-        </div>
-    </div>
-</footer>
-
-<!-- Project Modal -->
-<div id="projectModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
-    <!-- Backdrop -->
-    <div class="absolute inset-0 bg-slate-900/30 backdrop-blur-md transition-opacity duration-500 opacity-0" id="modalBackdrop" onclick="closeModal()"></div>
-    
-    <!-- Content Wrapper -->
-    <div class="fixed inset-0 z-[101] overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 sm:p-6 text-center">
-            
-            <!-- Modal Panel -->
-            <div id="modalPanel" class="relative w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white text-left shadow-2xl ring-1 ring-slate-900/5 transition-all duration-500 scale-95 opacity-0 translate-y-4">
-                
-                <!-- Close Button -->
-                <div class="absolute right-4 top-4 z-10">
-                    <button onclick="closeModal()" class="rounded-full bg-white/80 backdrop-blur p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors shadow-sm ring-1 ring-slate-200">
-                        <i data-lucide="x" class="h-4 w-4"></i>
-                    </button>
-                </div>
-
-                <div class="flex flex-col md:flex-row">
-                    <!-- Left: Image Slider -->
-                    <div class="w-full md:w-[55%] bg-slate-50 relative border-b md:border-b-0 md:border-r border-slate-100">
-                        <div class="relative aspect-[4/3] md:h-full md:aspect-auto w-full overflow-hidden flex items-center justify-center bg-[#F3F4F6]">
-                            <div id="carouselTrack" class="flex transition-transform duration-500 cubic-bezier(0.25, 1, 0.5, 1) h-full w-full">
-                                <!-- Slides -->
-                            </div>
-                            
-                            <!-- Controls -->
-                            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 bg-black/20 backdrop-blur-md p-1 rounded-full">
-                                <button onclick="prevSlide()" class="p-1.5 text-white hover:text-white/80 transition"><i data-lucide="chevron-left" class="h-4 w-4"></i></button>
-                                <button onclick="nextSlide()" class="p-1.5 text-white hover:text-white/80 transition"><i data-lucide="chevron-right" class="h-4 w-4"></i></button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Content -->
-                    <div class="w-full md:w-[45%] p-8 md:p-10 flex flex-col bg-white">
-                        <div class="mb-1">
-                            <span id="mRole" class="text-xs font-semibold uppercase tracking-wider text-indigo-600"></span>
-                        </div>
-                        <h3 id="mTitle" class="text-2xl font-medium tracking-tight text-slate-900 mb-4"></h3>
-                        
-                        <div class="prose prose-slate prose-sm mb-8">
-                            <p id="mDesc" class="text-slate-500 leading-relaxed"></p>
-                        </div>
-
-                        <div class="space-y-6 mb-8">
-                            <div>
-                                <h4 class="text-xs font-medium uppercase tracking-widest text-slate-400 mb-3">Key Features</h4>
-                                <ul id="mFeatures" class="space-y-2.5"></ul>
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-medium uppercase tracking-widest text-slate-400 mb-3">Technologies</h4>
-                                <div id="mTech" class="flex flex-wrap gap-2"></div>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto pt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
-                            <a id="mPlay" href="#" target="_blank" class="flex-1 inline-flex justify-center items-center gap-2 rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition-all hover:bg-slate-800 shadow-lg shadow-slate-900/10 hover:-translate-y-0.5">
-                                Download App <i data-lucide="external-link" class="h-3.5 w-3.5 text-slate-400"></i>
-                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script src="script.js"></script>
+    <!-- Scripts -->
+    <script src="bg-3d.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
 </body>
+
 </html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects — Mohsin Naseer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#030712',
+                            card: '#0f172a',
+                            accent: '#6366f1',
+                            muted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body class="bg-brand-dark text-slate-200 selection:bg-brand-accent/30 selection:text-white">
+
+    <!-- 3D Background Canvas (reused) -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Background Glows -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div class="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px]">
+        </div>
+        <div class="absolute bottom-[10%] left-[-10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px]">
+        </div>
+        <div class="absolute inset-0 bg-grid-white opacity-20"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="fixed inset-x-0 top-0 z-50 glass-nav">
+        <div class="mx-auto flex max-w-7xl items-center justify-between px-6 h-20">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div
+                    class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 transition-transform group-hover:scale-105">
+                    <span class="text-xs font-bold tracking-tighter">MN</span>
+                </div>
+            </a>
+
+            <nav
+                class="hidden md:flex items-center gap-8 bg-white/5 px-6 py-2 rounded-full border border-white/5 backdrop-blur-md">
+                <a href="index.html"
+                    class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Home</a>
+                <a href="projects.html" class="text-sm font-medium text-white transition-colors">Work</a>
+                <a href="contact.html"
+                    class="text-sm font-medium text-slate-400 hover:text-white transition-colors">Contact</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <a href="contact.html"
+                    class="inline-flex h-9 items-center rounded-full bg-white px-5 text-sm font-medium text-slate-900 shadow transition-transform hover:scale-105 active:scale-95">
+                    Hire Me
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="pt-32 pb-24 mx-auto max-w-7xl px-6">
+
+        <header class="mb-16 animate-fade-up">
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Featured Projects</h1>
+            <p class="text-lg text-slate-400 max-w-2xl leading-relaxed">
+                A collection of high-performance Android applications, engineered for scale and user retention. From
+                AI-powered tools to Health & Fitness solutions.
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="projectsGrid">
+            <!-- Data Injected JS -->
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-black/20 backdrop-blur-xl mt-auto">
+        <div class="mx-auto max-w-7xl px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-sm text-slate-500">
+                &copy; 2025 Mohsin Naseer.
+            </div>
+            <div class="flex gap-6">
+                <a href="https://www.linkedin.com/in/mohsinnaseerappdeveloper/"
+                    class="text-slate-500 hover:text-white transition-colors"><i data-lucide="linkedin"
+                        class="h-5 w-5"></i></a>
+                <a href="https://github.com/Mohsin0855" class="text-slate-500 hover:text-white transition-colors"><i
+                        data-lucide="github" class="h-5 w-5"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal (Same as Home, reused logic) -->
+    <div id="projectModal" class="fixed inset-0 z-[100] hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity duration-500 opacity-0"
+            id="modalBackdrop" onclick="closeModal()"></div>
+        <div class="fixed inset-0 z-[101] overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 sm:p-6 text-center">
+                <div id="modalPanel"
+                    class="relative w-full max-w-5xl transform overflow-hidden rounded-2xl bg-[#0f172a] border border-white/10 text-left shadow-2xl transition-all duration-500 scale-95 opacity-0 translate-y-4">
+                    <div class="absolute right-4 top-4 z-10">
+                        <button onclick="closeModal()"
+                            class="rounded-full bg-black/50 backdrop-blur p-2 text-white hover:bg-white/20 transition-colors">
+                            <i data-lucide="x" class="h-5 w-5"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex flex-col md:flex-row h-[80vh] md:h-auto">
+                        <!-- Left: Image Slider -->
+                        <div
+                            class="w-full md:w-[60%] bg-black relative flex items-center justify-center overflow-hidden">
+                            <div class="relative w-full h-[300px] md:h-full md:min-h-[500px] bg-black/50">
+                                <div id="carouselTrack" class="flex transition-transform duration-500 h-full w-full">
+                                    <!-- Slides -->
+                                </div>
+                                <div
+                                    class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 bg-black/40 backdrop-blur-md p-1.5 rounded-full border border-white/10">
+                                    <button onclick="prevSlide()"
+                                        class="p-2 text-white hover:bg-white/10 rounded-full transition"><i
+                                            data-lucide="chevron-left" class="h-4 w-4"></i></button>
+                                    <button onclick="nextSlide()"
+                                        class="p-2 text-white hover:bg-white/10 rounded-full transition"><i
+                                            data-lucide="chevron-right" class="h-4 w-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Content -->
+                        <div class="w-full md:w-[40%] p-8 md:p-10 flex flex-col bg-[#0f172a] overflow-y-auto">
+                            <div class="mb-2">
+                                <span id="mRole"
+                                    class="text-xs font-bold uppercase tracking-widest text-indigo-400"></span>
+                            </div>
+                            <h3 id="mTitle" class="text-3xl font-bold tracking-tight text-white mb-4"></h3>
+
+                            <div class="prose prose-invert prose-sm mb-8 text-slate-400">
+                                <p id="mDesc" class="leading-relaxed"></p>
+                            </div>
+
+                            <div class="space-y-8 mb-8">
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Key
+                                        Features</h4>
+                                    <ul id="mFeatures" class="space-y-3"></ul>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Tech
+                                        Stack</h4>
+                                    <div id="mTech" class="flex flex-wrap gap-2"></div>
+                                </div>
+                            </div>
+
+                            <div class="mt-auto pt-6 border-t border-white/5">
+                                <a id="mPlay" href="#" target="_blank"
+                                    class="w-full inline-flex justify-center items-center gap-2 rounded-lg bg-indigo-600 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-indigo-500 hover:-translate-y-0.5 shadow-lg shadow-indigo-500/20">
+                                    Download on Play Store <i data-lucide="external-link" class="h-4 w-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="bg-3d.js"></script>
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

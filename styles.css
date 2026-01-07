@@ -1,6 +1,20 @@
-/* Font Configuration */
+/* Font and Base Configuration */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
 :root {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Outfit', system-ui, sans-serif;
+    --bg-dark: #030712;
+    /* Very deep blue/black */
+    --accent-primary: #6366f1;
+    /* Indigo */
+    --accent-glow: rgba(99, 102, 241, 0.15);
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: #e2e8f0;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
 /* Scrollbar Styling */
@@ -10,56 +24,103 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: transparent;
+    background: #0f172a;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #e2e8f0;
+    background: #334155;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #cbd5e1;
+    background: #475569;
 }
 
-/* Text Rendering */
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* 3D Canvas Container */
+#bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.6;
+    /* Slight fade so it doesn't overpower content */
 }
 
-/* Premium Grid Background */
-.bg-premium-grid {
-    background-size: 60px 60px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.02) 1px, transparent 1px),
-                      linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+/* Premium Gradients */
+.bg-gradient-premium {
+    background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 60%);
+}
+
+.text-gradient-gold {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-indigo {
+    background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-nav {
+    background: rgba(3, 7, 18, 0.7);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* Animations */
 @keyframes float {
-    0%, 100% {
+
+    0%,
+    100% {
         transform: translateY(0);
     }
+
     50% {
         transform: translateY(-10px);
     }
 }
 
-@keyframes fade-up {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 20px var(--accent-glow);
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    50% {
+        box-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
     }
+}
+
+.animate-float {
+    animation: float 6s ease-in-out infinite;
 }
 
 .animate-fade-up {
     animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     opacity: 0;
+    transform: translateY(20px);
+}
+
+@keyframes fade-up {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .delay-100 {
@@ -74,25 +135,128 @@ body {
     animation-delay: 300ms;
 }
 
-.delay-500 {
-    animation-delay: 500ms;
+/* Grid Background */
+.bg-grid-white {
+    background-size: 50px 50px;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
 }
 
-/* Utility Classes */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
+/* Hover Effects */
+.hover-glow:hover {
+    box-shadow: 0 0 25px rgba(99, 102, 241, 0.25);
+    border-color: rgba(99, 102, 241, 0.4);
 }
 
-.glass-panel {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+/* --- Advanced Effects (V2) --- */
+
+/* Spotlight Effect */
+.spotlight-card {
+    position: relative;
+    overflow: hidden;
+    background: #0f172a;
+    /* Card Base */
 }
 
-/* Text Gradient */
-.text-gradient {
-    background: linear-gradient(135deg, #0f172a 0%, #475569 100%);
+/* The glowing border layer */
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(600px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+            rgba(99, 102, 241, 0.15),
+            transparent 40%);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.spotlight-card:hover::before {
+    opacity: 1;
+}
+
+/* Inner content glow */
+.spotlight-inner {
+    position: relative;
+    z-index: 2;
+    background: #0f172a;
+    /* Match card base */
+    border-radius: inherit;
+}
+
+/* Project Image Tilt */
+.tilt-wrapper {
+    perspective: 1000px;
+    transform-style: preserve-3d;
+}
+
+.tilt-image {
+    transition: transform 0.1s ease-out;
+    /* Fast reaction */
+    will-change: transform;
+}
+
+/* Shimmer Text */
+.text-shimmer {
+    background: linear-gradient(to right,
+            #818cf8 20%,
+            /* Indigo-400 */
+            #ffffff 50%,
+            #818cf8 80%);
+    background-size: 200% auto;
+    color: transparent;
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 5s linear infinite;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: 200% center;
+    }
+}
+
+/* Button Shine */
+.btn-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(255, 255, 255, 0.2),
+            transparent);
+    transition: left 0.5s;
+}
+
+.btn-shine:hover::after {
+    left: 100%;
+}
+
+/* Staggered Text Reveal */
+.reveal-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fade-up-reveal 0.6s cubic-bezier(0.2, 1, 0.2, 1) forwards;
+}
+
+@keyframes fade-up-reveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

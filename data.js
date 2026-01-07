@@ -125,12 +125,12 @@ const projects = [
             "Google Play Billing"
         ],
         stats: { main: "—", label: "Published" },
-        thumbImage: "images/Math_Ai_1.png",
+        thumbImage: "images/Math_Ai_1.webp",
         images: [
-            "images/Math_Ai_1.png",
-            "images/Math_Ai_2.png",
-            "images/Math_Ai_3.png",
-            "images/Math_Ai_4.png"
+            "images/Math_Ai_1.webp",
+            "images/Math_Ai_2.webp",
+            "images/Math_Ai_3.webp",
+            "images/Math_Ai_4.webp"
         ],
         links: {
             play: "https://play.google.com/store/apps/details?id=com.math.ai.ai.math.app"
